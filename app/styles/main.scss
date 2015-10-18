@@ -1,0 +1,44 @@
+
+.oxidCookie{
+  background-color: yellowgreen;
+  height: 150px;
+  width: 400px;
+  border-radius: 5px;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  display: block;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  .cookie-text-container {
+    padding: 10px;
+    margin: 0 auto;
+    height: 90px;
+    .emphasized-text {
+      font-weight: bold;
+      font-size: 16px;
+      width: 100%;
+      display: block;
+    }
+    .cookie-text{
+      width: 100%;
+      display: block;
+    }
+    & .hide{
+      bottom: 10px;
+      left: -360px;
+    }
+  }
+  .cookie-buttons {
+    text-align: center;
+    a{
+      margin-left: 10px;
+      margin-right: 10px;
+      color: black;
+      font-weight: bold;
+      text-decoration: none;
+      background-color: white;
+      padding: 10px;
+      border-radius: 4px;
+    }
+  }
+}

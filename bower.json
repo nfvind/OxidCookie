@@ -1,0 +1,22 @@
+{
+  "name": "cookie",
+  "private": true,
+  "dependencies": {
+    "bootstrap-sass": "~3.3.5",
+    "modernizr": "~2.8.3",
+    "js-cookie": "~2.0.4"
+  },
+  "overrides": {
+    "bootstrap-sass": {
+      "main": [
+        "assets/stylesheets/_bootstrap.scss",
+        "assets/fonts/bootstrap/*",
+        "assets/javascripts/bootstrap.js"
+      ]
+    }
+  },
+  "devDependencies": {
+    "chai": "~3.3.0",
+    "mocha": "~2.3.3"
+  }
+}
