@@ -130,14 +130,6 @@ module.exports = function (grunt) {
     },
 
     // Mocha testing framework configuration options
-    mocha: {
-      all: {
-        options: {
-          run: true,
-          urls: ['http://<%= browserSync.test.options.host %>:<%= browserSync.test.options.port %>/index.html']
-        }
-      }
-    },
 
     // Compiles ES6 with Babel
     babel: {
@@ -278,16 +270,16 @@ module.exports = function (grunt) {
     htmlmin: {
       dist: {
         options: {
-          collapseBooleanAttributes: true,
-          collapseWhitespace: true,
-          conservativeCollapse: true,
-          removeAttributeQuotes: true,
-          removeCommentsFromCDATA: true,
-          removeEmptyAttributes: true,
-          removeOptionalTags: true,
+          collapseBooleanAttributes: false,
+          collapseWhitespace: false,
+          conservativeCollapse: false,
+          removeAttributeQuotes: false,
+          removeCommentsFromCDATA: false,
+          removeEmptyAttributes: false,
+          removeOptionalTags: false,
           // true would impact styles with attribute selectors
           removeRedundantAttributes: false,
-          useShortDoctype: true
+          useShortDoctype: false
         },
         files: [{
           expand: true,
@@ -338,32 +330,12 @@ module.exports = function (grunt) {
             '{,*/}*.html',
             'styles/fonts/{,*/}*.*'
           ]
-        }, {
-          expand: true,
-          dot: true,
-          cwd: '.',
-          src: 'bower_components/bootstrap-sass/assets/fonts/bootstrap/*',
-          dest: '<%= config.dist %>'
         }]
       }
     },
 
     // Generates a custom Modernizr build that includes only the tests you
     // reference in your app
-    modernizr: {
-      dist: {
-        devFile: 'bower_components/modernizr/modernizr.js',
-        outputFile: '<%= config.dist %>/scripts/vendor/modernizr.js',
-        files: {
-          src: [
-            '<%= config.dist %>/scripts/{,*/}*.js',
-            '<%= config.dist %>/styles/{,*/}*.css',
-            '!<%= config.dist %>/scripts/vendor/*'
-          ]
-        },
-        uglify: true
-      }
-    },
 
     // Run some tasks in parallel to speed up build process
     concurrent: {
@@ -415,8 +387,7 @@ module.exports = function (grunt) {
     }
 
     grunt.task.run([
-      'browserSync:test',
-      'mocha'
+      'browserSync:test'
     ]);
   });
 
@@ -430,8 +401,6 @@ module.exports = function (grunt) {
     'cssmin',
     'uglify',
     'copy:dist',
-    'modernizr',
-    'filerev',
     'usemin',
     'htmlmin'
   ]);

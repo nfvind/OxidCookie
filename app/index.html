@@ -9,17 +9,12 @@
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
-    <!-- build:css(.) styles/vendor.css -->
-    <!-- bower:css -->
     <!-- endbower -->
     <!-- endbuild -->
-    <!-- build:css(.tmp) styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
+    <!-- build:css(.tmp) styles/oxidModalCookie.min.css -->
+    <link rel="stylesheet" href="styles/oxidModalCookie.css">
     <!-- endbuild -->
-    <!-- build:js scripts/vendor/modernizr.js -->
-    <script src="/bower_components/modernizr/modernizr.js"></script>
-    <!-- endbuild -->
+
 
   </head>
   <body>
@@ -41,37 +36,75 @@
   </div>
 </div>
 
-
-    <!-- build:js(.) scripts/vendor.js -->
-    <!-- bower:js -->
-    <script src="/bower_components/jquery/dist/jquery.js"></script>
-    <script src="/bower_components/js-cookie/src/js.cookie.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
 
-    <!-- build:js(.) scripts/plugins.js -->
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/affix.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/alert.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/modal.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/transition.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/button.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/popover.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/carousel.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/collapse.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tab.js"></script>
+    <!-- build:js(.) scripts/jquery.js -->
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
     <!-- endbuild -->
-
-
-    <!-- build:js scripts/main.js -->
+    <!-- build:js(.) scripts/jquery-ui.js -->
     <script src="scripts/jquery-ui/jquery-ui.min.js"></script>
-    <script src="scripts/oxid.cookie.js"></script>
-    <script src="scripts/main.js"></script>
-
     <!-- endbuild -->
+    <!-- build:js(.) scripts/js-cookie.js -->
+    <script src="/bower_components/js-cookie/src/js.cookie.js"></script>
+    <!-- endbuild -->
+    <!-- build:js scripts/OxidModalCookie.js -->
+    <script src="scripts/oxid.cookie.js"></script>
+    <!-- endbuild -->
+    <script type="text/javascript">
+      var xconfig = {
+        cookies:[
+          {
+            hostnames: [],
+            cookieContainer: '#Oxidcookie',
+            headline: 'headline',
+            information: 'text',
+            enabled: true,
+            modalEffects:{
+              showEffect:'drop',
+              showDir:'down',
+              showSpeed:'slow',
+              hideEffect:'drop',
+              hideDir:'down',
+              hideSpeed:'slow'
 
+            },
+            cookieConfig: {
+              saveAnswer: true,
+              cookieName: 'OxidCookie',
+              saveAnswerPeriod: 90
+            },
+            buttons: {
+              acceptButton: {
+                id: 'cookies-accept',
+                text: 'Thanks!',
+                link: '#',
+                enabled: true
+              },
+              declineButton: {
+                id: 'cookies-decline',
+                text: 'No thanks!',
+                link: 'http://www.m.dk',
+                enabled: false
+              },
+              infoButton: {
+                id: 'more-info',
+                text: 'read more',
+                link: 'http://www.m.dk',
+                enabled: false
+              }
+
+            }
+          }
+        ]
+      };
+      var cooks = NFV.OXID.Cookie();
+      jQuery(document).ready(function () {
+        cooks.init(xconfig);
+
+      });
+
+    </script>
   </body>
 </html>

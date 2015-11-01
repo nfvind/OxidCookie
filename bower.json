@@ -1,25 +1,12 @@
 {
   "name": "cookie",
   "private": true,
-  "version":0.9,
+  "version": 0.91,
   "dependencies": {
     "bootstrap-sass": "~3.3.5",
-    "modernizr": "~2.8.3",
     "js-cookie": "~2.0.4",
-    "jquery-ui": "jquery.ui#~1.11.4"
+    "jquery-ui": "jquery.ui#~1.11.4",
+    "jquery": "~2.1.4"
   },
-  "overrides": {
-    "bootstrap-sass": {
-      "main": [
-        "assets/stylesheets/_bootstrap.scss",
-        "assets/fonts/bootstrap/*",
-        "assets/javascripts/bootstrap.js"
-      ]
-    }
-  },
-  "devDependencies": {
-    "chai": "~3.3.0",
-    "mocha": "~2.3.3",
-    "jquery-ui": "~1.11.4"
-  }
+  "devDependencies": {}
 }

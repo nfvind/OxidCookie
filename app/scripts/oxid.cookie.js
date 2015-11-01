@@ -1,43 +1,6 @@
 /**
  * Created by Nicklas.Vind on 18-10-2015.
  */
-
-  var xconfig = {
-    cookies:[
-      {
-        hostnames: ['www.oxid.io','www.oxid.dk'],
-        cookieContainer:'#Oxidcookie',
-        headline:'headline',
-        information:'text',
-        enabled:true,
-        CookieConfig:{
-          saveAnswer: true,
-          cookieName:'OxidCookie',
-          saveAnswerPeriod:90
-        },
-        buttons:[
-          {
-            button:'cookies-accept',
-            text:'Thanks!',
-            link:'http//www.m.dk',
-            enabled:true
-          },
-          {
-            button:'cookies-decline',
-            text:'No thanks!',
-            link:'http//www.m.dk',
-            enabled:false
-          },
-          {
-            button:'more-info',
-            text:'read more',
-            link:'http//www.m.dk',
-            enabled:true
-          }
-        ]
-      }
-    ]
-  };
 var NFV = NFV || {};
 NFV.OXID = NFV.OXID || {};
 (function (module, $) {
@@ -143,10 +106,11 @@ NFV.OXID = NFV.OXID || {};
 
         }
         if($(event.target).attr('id') == 'cookies-accept'){
+          if(config.cookieConfig.saveAnswer){
+            _createOrUpdateCookie(true);
+          }
           _hideCookieModal($(event.target));
         }
-        _createOrUpdateCookie(true);
-        console.log(event.target);
       });
     };
     var _createOrUpdateCookie = function (answer) {
