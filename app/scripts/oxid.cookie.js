@@ -49,78 +49,130 @@ NFV.OXID = NFV.OXID || {};
       for(var i = 0;i< _config.cookies.length; i++){
         config = _config.cookies[i];
         if(_hasDomain(config.hostnames) && config.enabled === true){
-          _enabledButtons(config);
-          _createCookie(config,false,window.location.hostname);
-          $(config.cookieContainer).on('click', function (event) {
-            event.preventDefault();
-            _clickEventsHandler(event, config.buttons);
-          });
-          _cookieModal(config);
+          _cookieModal();
+          _buttons();
         }
       }
-      if(_getCookie() === undefined || false){
-       // show
-      }
+
     };
     var _fillBlankConfiguration = function (configs) {
       var _config = {
-        cookies:[
+        cookies:configs.cookies || [
           {
-            hostnames: configs.hostnames || [],
-            cookieContainer:configs.cookieContainer || '#Oxidcookie',
-            headline:configs.headline || 'headline',
-            information:configs.information || 'text',
-            enabled:configs.enabled || true,
-            cookieConfig:configs.cookieConfig || {
-              saveAnswer:configs.saveAnswer || true,
-              cookieName:configs.cookieName || 'OxidCookie',
-              saveAnswerPeriod:configs.saveAnswerPeriod || 90
+            hostnames: [],
+            cookieContainer: '#Oxidcookie',
+            headline: 'headline',
+            information: 'text',
+            enabled: true,
+            modalEffects:{
+              showEffect:'drop',
+              showDir:'down',
+              showSpeed:'slow',
+              hideEffect:'drop',
+              hideDir:'down',
+              hideSpeed:'slow'
+
             },
-            buttons:config.buttons || [
-              {
-                buttonId:'cookies-accept',
-                text:'Thanks!',
-                link: 'http://www.m.dk',
+            cookieConfig: {
+              saveAnswer: true,
+              cookieName: 'OxidCookie',
+              saveAnswerPeriod: 90
+            },
+            buttons: {
+              acceptButton: {
+                id: 'cookies-accept',
+                text: 'Thanks!',
+                link: '#',
                 enabled: true
               },
-              {
-                buttonId:'cookies-decline',
-                text:'No thanks!',
-                link:'http//www.m.dk',
-                enabled:false
+              declineButton: {
+                id: 'cookies-decline',
+                text: 'No thanks!',
+                link: 'http://www.m.dk',
+                enabled: false
               },
-              {
-                buttonId:'more-info',
-                text:'read more',
-                link:'http//www.m.dk',
-                enabled:true
+              infoButton: {
+                id: 'more-info',
+                text: 'read more',
+                link: 'http://www.m.dk',
+                enabled: true
               }
-            ]
+
+            }
           }
         ]
       };
+
+
       return _config;
     };
-    var _createCookie = function (modal,answer, domain) {
-      Cookies.set(modal.cookieConfig.cookieName, answer,{
-        expires:config.cookieConfig.saveAnswerPeriod,
-        //  path:window.location.pathname,
-        domain:domain
+    var _buttons = function () {
+      var buttons = config.buttons;
+      _genericButtons(buttons.acceptButton);
+      _genericButtons(buttons.declineButton);
+      _genericButtons(buttons.infoButton);
+
+    };
+    var _hideCookieModal = function () {
+      var _container = $(config.cookieContainer);
+      _container.hide( config.modalEffects.hideEffect, { direction: config.modalEffects.hideDir }, config.modalEffects.hideSpeed );
+    };
+    var _genericButtons = function (button) {
+      var $button = $("#"+button.id);
+      if(button.enabled){
+        $button.html(button.text);
+        $button.attr('href',button.link);
+        $button.attr('target','_blank');
+        $button.show();
+        addEvents($button, button);
+      }else{
+        $button.hide();
+      }
+
+    };
+    var addEvents = function ($button, button) {
+      $button.on('click', function (event) {
+        event.preventDefault();
+        //events
+        if(button.link != ''){
+          if(button.link != '#'){
+          window.open(button.link);
+          // functions
+          }
+        }else{
+
+        }
+        if($(event.target).attr('id') == 'cookies-accept'){
+          _hideCookieModal($(event.target));
+        }
+        _createOrUpdateCookie(true);
+        console.log(event.target);
       });
     };
-    var _updateCookie = function (answer) {
-      var _cook = Cookies.get(config.cookieConfig.cookieName);
-      _createCookie(answer, _cook.domain);
+    var _createOrUpdateCookie = function (answer) {
+      Cookies.set(config.cookieConfig.cookieName, answer,{
+        expires:config.cookieConfig.saveAnswerPeriod,
+        //  path:window.location.pathname,
+        domain:_getHostName()
+      });
+    };
+    var _getHostName = function () {
+      return window.location.hostname;
     };
     var _getCookie = function () {
-      var _cook = Cookies.get(config.cookieConfig.cookieName);
-      return _cook;
+      var _cookie = Cookies.get(config.cookieConfig.cookieName);
+      return _cookie;
     };
-    var _cookieModal = function (modal) {
-      var _container = $(modal.cookieContainer);
-      _container.find('emphasized-text').text = modal.headline;
-      _container.find('cookie-text').text = modal.information;
-      _container.show();
+    var _cookieModal = function () {
+      var _container = $(config.cookieContainer);
+      var answer = _getCookie();
+      if(answer == "false" || answer === undefined ){
+        _container.find('emphasized-text').text = config.headline;
+        _container.find('cookie-text').text = config.information;
+        _container.show(config.modalEffects.showEffect, { direction: config.modalEffects.showDir }, config.modalEffects.showSpeed);
+      }else{
+        _container.hide();
+      }
     };
     var _hasDomain = function (domains) {
       var validDomain = false;
@@ -129,63 +181,8 @@ NFV.OXID = NFV.OXID || {};
       }
       return validDomain;
     };
-    var _enabledButtons = function (config) {
-      var btns = config.buttons;
-      for(var i = 0;btns.length > i; i++){
-        var btn = btns[i];
-        if(btn.enabled === true){
-          _genericButton(btn);
-        }
-      }
-    };
-    var _findobject = function (key, array) {
-      var id = 0,
-          obj = {};
-      for(var i = 0;array.length > i; ++i){
-        console.log(array[i]);
-       if(array[i].buttonId == key){
-         id = i;
-         obj = array[i];
-       }else{
-         id = -1;
-         obj = {};
-       }
-      }
-      return {
-        id:id,
-        obj:obj
-      };
-    };
-    var _clickEventsHandler = function (evt, buttons) {
-      var btn =  $(evt.target);
-      var obj = _findobject(evt.target.id, buttons);
-      console.log(obj);
-      if(obj.id === evt.target.id && obj.obj.enabled === true){
-        if(btn.attr('id') === buttons[0].button){
-          _updateCookie(true);
-        }
-        var url = evt.href;
-
-        window.open(url);
-
-      }
-      console.log(buttons.indexOf(evt.target.id));
-    };
-      var _genericButton = function (options) {
-      var acceptBtn = $('#'+options.buttonId);
-      if(options.enabled === true){
-        acceptBtn.html(options.text);
-        acceptBtn.attr('href',options.link);
-        acceptBtn.attr('target','_blank');
-        acceptBtn.show();
-      }else{
-        acceptBtn.hide();
-      }
-    };
     var publicApi = {
-      init:init,
-      config:config,
-      createCnfg:_fillBlankConfiguration
+      init:init
     };
     return publicApi;
   });
