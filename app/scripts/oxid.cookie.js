@@ -131,8 +131,8 @@ NFV.OXID = NFV.OXID || {};
       var _container = $(config.cookieContainer);
       var answer = _getCookie();
       if(answer == "false" || answer === undefined ){
-        _container.find('emphasized-text').text = config.headline;
-        _container.find('cookie-text').text = config.information;
+        _container.find('.emphasized-text').first().text(config.headline);
+        _container.find('.cookie-text').first().text(config.information);
         _container.show(config.modalEffects.showEffect, { direction: config.modalEffects.showDir }, config.modalEffects.showSpeed);
       }else{
         _container.hide();
