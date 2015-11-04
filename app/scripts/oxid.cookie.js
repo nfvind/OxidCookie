@@ -13,7 +13,7 @@ NFV.OXID = NFV.OXID || {};
         config = _config.cookies[i];
         if(_hasDomain(config.hostnames) && config.enabled === true){
           _cookieModal();
-          _buttons();
+
         }
       }
 
@@ -23,7 +23,7 @@ NFV.OXID = NFV.OXID || {};
         cookies:configs.cookies || [
           {
             hostnames: [],
-            cookieContainer: '#Oxidcookie',
+            cookieContainer: 'oxidModalCookie',
             headline: 'headline',
             information: 'text',
             enabled: true,
@@ -35,6 +35,10 @@ NFV.OXID = NFV.OXID || {};
               hideDir:'down',
               hideSpeed:'slow'
 
+            },
+            injectHtmlConfig:{
+              enabled:false,
+              parent:'#oxidmodal'
             },
             cookieConfig: {
               saveAnswer: true,
@@ -77,7 +81,7 @@ NFV.OXID = NFV.OXID || {};
 
     };
     var _hideCookieModal = function () {
-      var _container = $(config.cookieContainer);
+      var _container = $('#'+config.cookieContainer);
       _container.hide( config.modalEffects.hideEffect, { direction: config.modalEffects.hideDir }, config.modalEffects.hideSpeed );
     };
     var _genericButtons = function (button) {
@@ -87,13 +91,48 @@ NFV.OXID = NFV.OXID || {};
         $button.attr('href',button.link);
         $button.attr('target','_blank');
         $button.show();
-        addEvents($button, button);
+        _addEvents($button, button);
       }else{
         $button.hide();
       }
 
     };
-    var addEvents = function ($button, button) {
+    var _genericButtonsCreator = function (button) {
+      var $button = $('<a href="" class="btn" id="'+button.id+'"></a>');
+      if(button.enabled){
+        $button.html(button.text);
+        $button.attr('href',button.link);
+        $button.attr('target','_blank');
+        $button.show();
+        _addEvents($button, button);
+      }else{
+        $button.hide();
+      }
+      return $button;
+    };
+    var _modalInjector = function () {
+      var container = $('<div id="'+config.cookieContainer+'" class="oxidCookie"></div>');
+      var textCont = $('<div class="cookie-text-container"></div>');
+      var btnCont = $('<div class="cookie-buttons"></div>');
+      textCont.append('<span class="emphasized-text">'+config.headline+'</span>');
+      textCont.append('<span class="cookie-text">'+config.information+'</span>');
+      if(config.buttons.acceptButton.enabled){
+        btnCont.append(_genericButtonsCreator(config.buttons.acceptButton));
+      }
+      if(config.buttons.declineButton.enabled){
+        btnCont.append(_genericButtonsCreator(config.buttons.declineButton));
+      }
+      if(config.buttons.infoButton.enabled){
+        btnCont.append(_genericButtonsCreator(config.buttons.infoButton));
+      }
+      container.append(textCont);
+      container.append(btnCont);
+      var parent = $(config.injectHtmlConfig.parent);
+      container.hide();
+      parent.append(container);
+      return container;
+    };
+    var _addEvents = function ($button, button) {
       $button.on('click', function (event) {
         event.preventDefault();
         //events
@@ -103,13 +142,12 @@ NFV.OXID = NFV.OXID || {};
           // functions
           }
         }else{
-
         }
         if($(event.target).attr('id') == 'cookies-accept'){
           if(config.cookieConfig.saveAnswer){
             _createOrUpdateCookie(true);
           }
-          _hideCookieModal($(event.target));
+          _hideCookieModal();
         }
       });
     };
@@ -128,11 +166,17 @@ NFV.OXID = NFV.OXID || {};
       return _cookie;
     };
     var _cookieModal = function () {
-      var _container = $(config.cookieContainer);
+      var _container;
       var answer = _getCookie();
-      if(answer == "false" || answer === undefined ){
+      if(config.injectHtmlConfig.enabled === true){
+        _container = _modalInjector();
+      }else{
+        _container = $('#'+config.cookieContainer);
         _container.find('.emphasized-text').first().text(config.headline);
         _container.find('.cookie-text').first().text(config.information);
+        _buttons();
+      }
+      if(answer == "false" || answer === undefined ){
         _container.show(config.modalEffects.showEffect, { direction: config.modalEffects.showDir }, config.modalEffects.showSpeed);
       }else{
         _container.hide();

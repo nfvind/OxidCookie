@@ -17,24 +17,24 @@
 
 
   </head>
-  <body>
+  <body id="oxidmodal">
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-
-<div class="oxidCookie" id="Oxidcookie">
-  <div class="cookie-text-container">
+    <div class="oxidCookie" id="oxidModalCookie">
+      <div class="cookie-text-container">
     <span class="emphasized-text">
       We use cookies!
     </span>
-    <span class="cookie-text">Cookies are a part of the web wether you like it or not!</span>
-  </div>
-  <div class="cookie-buttons">
-    <a href="#" class="btn" id="cookies-accept">Yes, please</a>
-    <a href="" class="btn alert" id="cookies-decline">No thanks!</a>
-    <a href="#" class="info" id="more-info">Info</a>
-  </div>
-</div>
+        <span class="cookie-text">Cookies are a part of the web wether you like it or not!</span>
+      </div>
+      <div class="cookie-buttons">
+        <a href="#" class="btn" id="cookies-accept">Yes, please</a>
+        <a href="" class="btn alert" id="cookies-decline">No thanks!</a>
+        <a href="#" class="info" id="more-info">Info</a>
+      </div>
+    </div>
+
 
     <!-- endbower -->
     <!-- endbuild -->
@@ -57,7 +57,7 @@
         cookies:[
           {
             hostnames: [],
-            cookieContainer: '#Oxidcookie',
+            cookieContainer: 'oxidModalCookie',
             headline: 'headline',
             information: 'text',
             enabled: true,
@@ -74,6 +74,10 @@
               saveAnswer: true,
               cookieName: 'OxidCookie',
               saveAnswerPeriod: 90
+            },
+            injectHtmlConfig:{
+              enabled:false,
+              parent:'#oxidmodal'
             },
             buttons: {
               acceptButton: {
