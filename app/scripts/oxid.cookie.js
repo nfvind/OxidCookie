@@ -27,23 +27,24 @@ NFV.OXID = NFV.OXID || {};
             headline: 'headline',
             information: 'text',
             enabled: true,
-            modalEffects:{
-              showEffect:'drop',
-              showDir:'down',
-              showSpeed:'slow',
-              hideEffect:'drop',
-              hideDir:'down',
-              hideSpeed:'slow'
-
-            },
-            injectHtmlConfig:{
-              enabled:false,
-              parent:'#oxidmodal'
-            },
-            cookieConfig: {
-              saveAnswer: true,
-              cookieName: 'OxidCookie',
-              saveAnswerPeriod: 90
+            advanced: configs.advanced || {
+              modalEffects:configs.advanced.modalEffects || {
+                showEffect:'drop',
+                showDir:'down',
+                showSpeed:'slow',
+                hideEffect:'drop',
+                hideDir:'down',
+                hideSpeed:'slow'
+              },
+              injectHtmlConfig: configs.advanced.injectHtmlConfig || {
+                enabled:false,
+                parent:'oxidmodal'
+              },
+              cookieConfig: configs.advanced.cookieConfig || {
+                saveAnswer: true,
+                cookieName: 'OxidCookie',
+                saveAnswerPeriod: 90
+              }
             },
             buttons: {
               acceptButton: {
